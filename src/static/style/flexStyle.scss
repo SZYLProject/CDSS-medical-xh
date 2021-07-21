@@ -1,0 +1,5 @@
+@mixin flexistyle($fl:flex, $justf:center, $ali: center){
+    display: $fl;
+    justify-content: $justf;
+    align-items: $ali;
+  }
