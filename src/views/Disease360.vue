@@ -181,6 +181,11 @@ export default {
     })
   },
   mounted () {
+    localStorage.setItem('disease_name', 'LC')
+    localStorage.setItem('patientId', 'fa-0706008')
+
+    localStorage.setItem('numHospital', '4')
+
     // 配置全科的不显示方案推荐
     const drawerType = localStorage.getItem('department')
     if (drawerType === '全科') {

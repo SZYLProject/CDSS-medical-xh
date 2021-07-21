@@ -11,7 +11,7 @@ const routes = [
     path: '/',
     name: 'home',
     component: () => import('@/views/Home'),
-    redirect: to => 'DiseaseEntry',
+    redirect: to => 'DiseaseDetail360',
     children: [
       {
         path: 'DiseaseEntry',

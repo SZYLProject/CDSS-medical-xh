@@ -62,7 +62,7 @@ export default {
       localStorage.setItem('numHospital', item.num_hospital)
       console.log(item.num_hospital, 'item.num_hospital')
       this.$router.push({
-        path: 'DiseaseList/DiseaseDetail360',
+        path: '/DiseaseDetail360',
         query: { disease_name: this.$route.query.disease_name }
       })
     }

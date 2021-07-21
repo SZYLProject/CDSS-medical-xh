@@ -57,7 +57,7 @@ export default {
             this.$message.error(res.message)
           } else {
             localStorage.setItem('token', res.data.name)
-            this.$router.push('DiseaseEntry')
+            this.$router.push('DiseaseEntry') // 跳转首页
           }
           if (this.loginForm.save) {
             this.setCookie(this.loginForm.name, this.loginForm.password, 5)
