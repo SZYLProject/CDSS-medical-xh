@@ -5,8 +5,8 @@ const actions = {
   apiGetDiseaseInfoSelectHCForm ({ commit }, { drawer, query }) {
     const param = {
       patient_id: localStorage.getItem('patientId'),
-      num_hospital: localStorage.getItem('numHospital'),
-      disease_name: localStorage.getItem('disease_name')
+      num_hospital: localStorage.getItem('numHospital')
+      // disease_name: localStorage.getItem('disease_name')
     }
     commit(TYPES.FULLSCREENLOADING, true)
     commit(TYPES.SETFINISHED)

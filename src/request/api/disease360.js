@@ -8,7 +8,8 @@ const diease360 = {
   // apiGet360Detaol: p => get('./360detail.json'),
   // apiGet360Detaol: p => post('/v1/diseaseInfoSelect', p),
   apiUpdateDiseaseInfo: p => post('/v1/updateDiseaseInfo', p),
-  apiGetDiseaseInfoSelectHC: p => post('/v1/diseaseInfoSelect', p),
+  apiGetDiseaseInfoSelectHC: p => post('/v1/diseaseInfoSelectSP', p),
+  getPatientMessage: p => post('v1/getPatientMessage', p),
   // similarityCase: p => post('/v1/similarityCase', p),
   similarityCase: p =>
     post(

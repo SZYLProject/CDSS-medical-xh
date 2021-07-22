@@ -5,7 +5,11 @@ import router from '../router'
 import currentScience from '../config'
 
 axios.defaults.timeout = 200000
+
 axios.defaults.baseURL = currentScience.baseUrl
+console.log(currentScience.baseUrl, 'currentScience.baseUrl')
+console.log(axios.defaults.baseURL, 'axios.defaults.baseURL')
+
 // axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded'
 // axios.defaults.headers.post['Content-type'] = 'application/x-www-form-urlcode;chatset=UTF-8'
 axios.interceptors.request.use(

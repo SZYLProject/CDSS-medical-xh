@@ -8,30 +8,15 @@
     element-loading-background="rgba(0, 0, 0, .03)"
   >
     <div class="patient-info-wrap">
-      <PatientInfo
-        :basicInfoModel="diseaseInfoSelectData.basicInfoModel"
-      ></PatientInfo>
+      <PatientInfo :basicInfoModel="tablePerpionInfo"></PatientInfo>
     </div>
     <div class="pathology-info-wrap">
       <PathologyInfo
-        v-if="
-          !diseaseInfoSelectData.fullscreenLoading &&
-            rightDraweTabs[0].count === 0
-        "
+        v-if="!diseaseInfoSelectData.fullscreenLoading"
         :diseaseInfo="diseaseInfoSelectData"
         class="pathology-info-content-wrap"
         :pathologyInfo="diseaseInfoSelectData.pathologyInfo"
       ></PathologyInfo>
-      <PathologyInfoQZ
-        v-if="
-          !diseaseInfoSelectData.fullscreenLoading &&
-            rightDraweTabs[0].count === 1
-        "
-        :diseaseInfo="diseaseInfoSelectData"
-        class="pathology-info-content-wrap"
-        :pathologyInfo="diseaseInfoSelectData.pathologyInfo"
-      ></PathologyInfoQZ>
-      <!-- <PathologyInfoNew v-if = '!diseaseInfoSelectData.fullscreenLoading && diseaseInfoSelectData' :diseaseInfo = 'diseaseInfoSelectData' class="pathology-info-content-wrap" :pathologyInfo = 'diseaseInfoSelectData.pathologyInfo'></PathologyInfoNew> -->
       <Empty
         v-if="
           !diseaseInfoSelectData.fullscreenLoading && !diseaseInfoSelectData
@@ -56,8 +41,7 @@
           class="select-tab"
           :style="{ top: `${10 + 60 * index}px` }"
         >
-          <i :class="tab.icon" v-if="tab.count != 1"></i
-          ><span v-if="tab.count != 1">{{ tab.title }}</span>
+          <i :class="tab.icon"></i><span>{{ tab.title }}</span>
         </p>
       </div>
     </div>
@@ -124,6 +108,8 @@ import FollowUp from '@/components/Disease360/FollowUp'
 import DocumentRetrieval from '@/components/Disease360/DocumentRetrieval'
 import { Button, Collapse, Loading, CheckboxGroup, Checkbox } from 'element-ui'
 import { mapMutations, mapState } from 'vuex'
+import api from '@/request/index'
+
 export default {
   components: {
     PatientInfo,
@@ -145,13 +131,14 @@ export default {
   },
   data () {
     return {
+      tablePerpionInfo: {},
       drawerShow: false,
       diseaseInfo: {},
       rightDraweTabs: [
-        { title: '方案推荐', icon: 'el-icon-s-cooperation', count: 0 },
-        { title: '相似病例', icon: 'el-icon-s-claim', count: 0 },
-        { title: '文献检索', icon: 'el-icon-s-finance', count: 0 },
-        { title: '意见反馈', icon: 'el-icon-edit-outline', count: 0 }
+        { title: 'SOFA', icon: 'el-icon-s-cooperation', count: 0 },
+        { title: '筛查感染部位', icon: 'el-icon-s-claim', count: 0 },
+        { title: '抗感染方案推荐', icon: 'el-icon-s-finance', count: 0 },
+        { title: '抗感染方案评估', icon: 'el-icon-edit-outline', count: 0 }
         // { title: '全景图', icon: 'el-icon-time', count: 0 }
 
         // { title: '随访', icon: 'el-icon-edit-outline' }
@@ -182,24 +169,28 @@ export default {
   },
   mounted () {
     localStorage.setItem('disease_name', 'LC')
-    localStorage.setItem('patientId', 'fa-0706008')
+    localStorage.setItem('patientId', '0019118')
 
-    localStorage.setItem('numHospital', '4')
+    localStorage.setItem('numHospital', '2')
+    this.getPatientMessage()
 
-    // 配置全科的不显示方案推荐
-    const drawerType = localStorage.getItem('department')
-    if (drawerType === '全科') {
-      this.rightDraweTabs[0].count = 1
-    }
-    console.log(this.diseaseInfoSelectData)
     this.$store.commit('disease360/SETDRAWERDOM', this.$refs.drawer)
-    this.$store.dispatch('disease360/apiGetDiseaseInfoSelectHCForm', {
-      drawer: this.$refs.drawer,
-      query: window.location.hash ? window.location.hash.split('?')[1] : ''
-    })
+
     window.addEventListener('message', this.receiveMessageFromIframePage, false)
   },
   methods: {
+    async getPatientMessage () {
+      const data = {
+        patient_id: localStorage.getItem('patientId')
+      }
+      await api.diease360.getPatientMessage(data).then(res => {
+        this.tablePerpionInfo = res
+        this.$store.dispatch('disease360/apiGetDiseaseInfoSelectHCForm', {
+          drawer: this.$refs.drawer,
+          query: window.location.hash ? window.location.hash.split('?')[1] : ''
+        })
+      })
+    },
     receiveMessageFromIframePage (event) {
       event.stopPropagation()
       if (event.data && event.data.data) {
@@ -342,7 +333,7 @@ $Title-clor: rgb(20, 100, 152);
   .right-fixed-wrap {
     position: fixed;
     top: 60px;
-    width: 100px;
+    width: 140px;
     bottom: 0;
     height: 100%;
     z-index: 1000;
