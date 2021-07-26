@@ -363,8 +363,14 @@ const mutations = {
   [TYPES.SETDISEASEINFOSELECTDATA] (state, v) {
     console.log(v)
     state.diseaseInfoSelectData = v
+    // state.diseaseInfoSelectData.diseaseInfoModel = v.diseaseInfoModel[0].children.map(
+    //   (item, index) => {
+    //     return item
+    //   }
+    // )
+
     // state.diseaseInfoSelectData.diseaseInfo = v
-    state.diseaseInfoSelectData.displyTreatments = v.displyTreatments
+    state.diseaseInfoSelectData.displyTreatments = v.recommendOrderList
     state.diseaseInfoSelectData.finished = true
     state.diseaseInfoSelectData.basicInfoModel = v.basicInfoModel
     state.diseaseInfoSelectData.pathologyInfo = v.pathologyInfo
@@ -488,18 +494,18 @@ const mutations = {
         state.componentDefault = 'SchemeRecommendation'
         break
       case 2:
-        state.draweWidth = parseInt((state.screenWidth * 9) / 10)
-        stap = 40
-        state.componentDefault = 'SimilarCases'
-        preType = type
+        state.draweWidth = parseInt(state.screenWidth * 0.4)
+        stap = 22
+        state.componentDefault = 'SchemeRecommendation1'
+        // preType = type
         break
       case 3:
-        state.componentDefault = 'DocumentRetrieval'
+        state.componentDefault = 'SchemeRecommendation2'
         state.draweWidth = parseInt(state.screenWidth * 0.4)
         stap = 22
         break
       case 4:
-        state.componentDefault = 'Feedback'
+        state.componentDefault = 'SchemeRecommendation3'
         state.draweWidth = parseInt(state.screenWidth * 0.4)
         stap = 22
         break

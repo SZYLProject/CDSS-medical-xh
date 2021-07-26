@@ -87,10 +87,6 @@
         </div>
       </div>
     </div>
-    <!-- <div v-drag class="iframe-wrap" :style="{width:style.width,height:style.height}" ref="ifwap">
-          <div class="drag-wrap">智能CDSS</div>
-          <iframe src="http://localhost:8090/cdss.html#/" frameborder="0" ></iframe>
-        </div> -->
   </div>
 </template>
 
@@ -103,6 +99,10 @@ import PathologyInfoQZ from '@/components/Disease360/PathologyInfoQZ'
 import Feedback from '@/components/Disease360/Feedback'
 import PathologyInfoNew from '@/components/Disease360/PathologyInfoNew'
 import SchemeRecommendation from '@/components/Disease360/SchemeRecommendation'
+import SchemeRecommendation1 from '@/components/Disease360/SchemeRecommendation1'
+import SchemeRecommendation2 from '@/components/Disease360/SchemeRecommendation2'
+import SchemeRecommendation3 from '@/components/Disease360/SchemeRecommendation3'
+
 import SimilarCases from '@/components/Disease360/SimilarCases'
 import FollowUp from '@/components/Disease360/FollowUp'
 import DocumentRetrieval from '@/components/Disease360/DocumentRetrieval'
@@ -119,6 +119,9 @@ export default {
     FormDialogEdit,
     PathologyInfo,
     SchemeRecommendation,
+    SchemeRecommendation1,
+    SchemeRecommendation2,
+    SchemeRecommendation3,
     SimilarCases,
     Feedback,
     DocumentRetrieval,
@@ -168,10 +171,13 @@ export default {
     })
   },
   mounted () {
-    localStorage.setItem('disease_name', 'LC')
-    localStorage.setItem('patientId', '0019118')
+    // localStorage.setItem('disease_name', 'LC')
+    localStorage.setItem('patientId', '0037696')
+    // localStorage.setItem('patientId', '66')
 
-    localStorage.setItem('numHospital', '2')
+    localStorage.setItem('numHospital', '1')
+    // localStorage.setItem('numHospital', '1')
+
     this.getPatientMessage()
 
     this.$store.commit('disease360/SETDRAWERDOM', this.$refs.drawer)
@@ -238,6 +244,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import '@/assets/commonPublic.scss';
 $theme-clor: rgb(35, 53, 75);
 $xjTheme-clor: rgb(69, 125, 124);
 $xjTheme-border-clor: rgb(126, 168, 215);
@@ -250,6 +257,7 @@ $Title-clor: rgb(20, 100, 152);
   box-sizing: border-box;
   position: relative;
   overflow-y: auto;
+  width: 96%;
   .iframe-wrap {
     position: absolute;
     left: 0;
@@ -292,6 +300,7 @@ $Title-clor: rgb(20, 100, 152);
       height: 100%;
       display: flex;
       flex-direction: column;
+      width: 94%;
     }
     .drawer-content-wrap {
       background-color: #fff;
@@ -337,8 +346,7 @@ $Title-clor: rgb(20, 100, 152);
     bottom: 0;
     height: 100%;
     z-index: 1000;
-    // background-color: #23354b;
-    background: rgb(35, 53, 75);
+    background: $publicBackground;
     cursor: pointer;
     i {
       width: 30px;
@@ -351,7 +359,9 @@ $Title-clor: rgb(20, 100, 152);
     .select-tab {
       line-height: 40px;
       // background-color: rgba($color: $theme-clor, $alpha:.8);
-      background: rgb(35, 53, 75);
+      // background: rgb(35, 53, 75);
+      background: $publicBackground;
+
       color: $xjTheme-clor;
       padding: 0 10px;
       margin-bottom: 20px;

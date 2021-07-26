@@ -104,9 +104,10 @@ export default {
 
 <style lang="scss" scoped>
 @import '../static/style/flexStyle.scss';
+@import '@/assets/commonPublic.scss';
 .header-wrap {
   height: 60px;
-  background: rgb(35, 53, 75);
+  background: $publicBackground;
   width: 100%;
   padding: 0 20px;
   display: flex;

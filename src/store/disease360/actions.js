@@ -8,14 +8,14 @@ const actions = {
       num_hospital: localStorage.getItem('numHospital')
       // disease_name: localStorage.getItem('disease_name')
     }
-    commit(TYPES.FULLSCREENLOADING, true)
+    commit(TYPES.FULLSCREENLOADING, true) // loading 开启
     commit(TYPES.SETFINISHED)
     api.diease360
       .apiGetDiseaseInfoSelectHC(param)
       .then(res => {
         if (res.status === '1') {
           Vue.prototype.$message.error(res.message)
-          commit(TYPES.FULLSCREENLOADING, false)
+          commit(TYPES.FULLSCREENLOADING, false) // loading 关闭
         } else {
           commit(TYPES.SETDISEASEINFOSELECTDATA, res.data)
 
@@ -26,12 +26,12 @@ const actions = {
             drawerType = 2
           }
           commit(TYPES.ONSHOWORCLOSEDRAWER, { drawer, type: drawerType })
-          const diseaseInfoModelData = res.data.diseaseInfoModel
+          // const diseaseInfoModelData = res.data.diseaseInfoModel
           // diseaseInfoModelData[1].children.splice(3, 1)
-          localStorage.setItem(
-            'diseaseInfoModel',
-            JSON.stringify(diseaseInfoModelData)
-          )
+          // localStorage.setItem(
+          //   'diseaseInfoModel',
+          //   JSON.stringify(diseaseInfoModelData)
+          // )
         }
       })
       .catch(err => {
@@ -42,7 +42,7 @@ const actions = {
         // this.finished = true
       })
   },
-  apiPostEdit (context, { query }) {
+  apiPostEdit (context) {
     context.commit(TYPES.SETSUBMITLOADING, true)
     const submitArr = [...context.state.formItems]
     submitArr.map((ele, index, array) => {
@@ -59,19 +59,25 @@ const actions = {
       array[index] = obj
     })
     let param = {}
-    console.log(query.split('&'))
-    if (query.split('&').length > 1) {
-      query.split('&').map(e => {
-        param[e.split('=')[0]] = e.split('=')[1]
-        param.diseaseInfoModel = submitArr
-      })
-    } else {
-      param = {
-        patient_id: localStorage.getItem('patientId'),
-        num_hospital: localStorage.getItem('numHospital'),
-        diseaseInfoModel: submitArr,
-        disease_name: localStorage.getItem('disease_name')
-      }
+    // console.log(query.split('&'))
+    // if (query.split('&').length > 1) {
+    //   query.split('&').map(e => {
+    //     param[e.split('=')[0]] = e.split('=')[1]
+    //     param.diseaseInfoModel = submitArr
+    //   })
+    // } else {
+    //   param = {
+    //     patient_id: localStorage.getItem('patientId'),
+    //     num_hospital: localStorage.getItem('numHospital'),
+    //     diseaseInfoModel: submitArr,
+    //     disease_name: localStorage.getItem('disease_name')
+    //   }
+    // }
+    param = {
+      patient_id: localStorage.getItem('patientId'),
+      num_hospital: localStorage.getItem('numHospital'),
+      diseaseInfoModel: submitArr,
+      disease_name: localStorage.getItem('disease_name')
     }
 
     api.diease360

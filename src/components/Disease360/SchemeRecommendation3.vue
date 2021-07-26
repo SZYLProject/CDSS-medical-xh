@@ -6,7 +6,7 @@
       v-if="displyTreatmentsData && displyTreatmentsData.length && finished"
     >
       <div v-if="diseaseInfoSelectData">
-        {{ diseaseInfoSelectData.qsofaScorePrama }}
+        {{ diseaseInfoSelectData.treateData }}
       </div>
       <el-collapse-item
         :title="item.recommendID"
@@ -58,7 +58,7 @@ export default {
   methods: {
     displyTreatmentsFun () {
       this.displyTreatments.forEach((item, index) => {
-        if (item.recommendID === 'qSOFA评估') {
+        if (item.recommendID === '抗感染方案评估') {
           this.displyTreatmentsData.push(item)
         }
       })

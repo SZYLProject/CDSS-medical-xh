@@ -165,9 +165,7 @@ export default {
   methods: {
     ...mapMutations({ ONCHANGEOPTION: 'disease360/ONCHANGEOPTION' }),
     onEdit () {
-      this.$store.dispatch('disease360/apiPostEdit', {
-        query: window.location.hash ? window.location.hash.split('?')[1] : ''
-      })
+      this.$store.dispatch('disease360/apiPostEdit')
     }
   }
 }
