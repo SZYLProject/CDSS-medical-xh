@@ -171,31 +171,51 @@ export default {
     })
   },
   mounted () {
+    this.start()
     // localStorage.setItem('disease_name', 'LC')
-    localStorage.setItem('patientId', '0037696')
+    // localStorage.setItem('patientId', '0037696')
     // localStorage.setItem('patientId', '66')
 
-    localStorage.setItem('numHospital', '1')
+    // localStorage.setItem('numHospital', '1')
     // localStorage.setItem('numHospital', '1')
 
-    this.getPatientMessage()
+    // this.getPatientMessage()
 
     this.$store.commit('disease360/SETDRAWERDOM', this.$refs.drawer)
 
     window.addEventListener('message', this.receiveMessageFromIframePage, false)
   },
   methods: {
-    async getPatientMessage () {
+    start () {
+      const id = this.getUrlKey('patientId')
+      localStorage.setItem('patientId', id)
+      if (id) {
+        this.getPatientMessage(id)
+      }
+    },
+    async getPatientMessage (id) {
       const data = {
-        patient_id: localStorage.getItem('patientId')
+        patient_id: String(id)
       }
       await api.diease360.getPatientMessage(data).then(res => {
+        localStorage.setItem('numHospital', String(res.num_hospital))
+        // console.log(String(res.num_hospital), 'String(res.num_hospital)')
         this.tablePerpionInfo = res
         this.$store.dispatch('disease360/apiGetDiseaseInfoSelectHCForm', {
           drawer: this.$refs.drawer,
           query: window.location.hash ? window.location.hash.split('?')[1] : ''
         })
       })
+    },
+    // 获取路由的最后参数
+    getUrlKey (name) {
+      return (
+        decodeURIComponent(
+          (new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(
+            location.href
+          ) || [, ''])[1].replace(/\+/g, '%20')
+        ) || null
+      )
     },
     receiveMessageFromIframePage (event) {
       event.stopPropagation()

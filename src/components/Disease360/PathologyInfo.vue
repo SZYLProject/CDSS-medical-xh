@@ -40,7 +40,7 @@
         </el-form-item>
       </el-form-item>
       <el-form-item v-else :label="item.disease_info_title">
-        <el-checkbox-group v-model="item.list">
+        <el-checkbox-group v-model="item.childrenList">
           <el-checkbox
             v-for="(item2, index) in item.children"
             :key="index"
@@ -62,6 +62,7 @@
 <script>
 import { mapMutations, mapState } from 'vuex'
 import api from '@/request/index'
+// import func from 'vue-editor-bridge'
 
 export default {
   data () {
@@ -94,11 +95,22 @@ export default {
   },
   methods: {
     diseaseInfoModelFun () {
-      this.diseaseInfoModel = this.diseaseInfo?.diseaseInfoModel
-
+      this.diseaseInfoModel = []
+      this.diseaseInfoModel = JSON.parse(
+        JSON.stringify(this.diseaseInfo?.diseaseInfoModel)
+      )
+      this.diseaseInfoModel[0].children = this.diseaseInfo?.diseaseInfoModel[0].children.map(
+        item => {
+          return {
+            ...item,
+            childrenList: []
+          }
+        }
+      )
+      console.log(this.diseaseInfoModel, 'this.diseaseInfoModel')
       this.diseaseInfoModel[0].children.forEach(el => {
         if (el.presentation_type !== '1') {
-          el.list = el.children.map(item => {
+          el.childrenList = el.children.map(item => {
             if (item.disease_info_title_value === 'y') {
               return item.disease_info_title
             }
@@ -116,6 +128,7 @@ export default {
       api.diease360.apiUpdateDiseaseInfo(param).then(res => {
         if (res.status === '0') {
           this.formLoad = false
+          this.$message.success('修改患者信息成功')
 
           this.$store.dispatch('disease360/apiGetDiseaseInfoSelectHCForm', {
             drawer: this.$refs.drawer,
@@ -143,7 +156,7 @@ export default {
         } else {
           // updataModel.concat(item.children.map())
           item.children.forEach(el => {
-            if (item.list.indexOf(el.disease_info_title) !== -1) {
+            if (item.childrenList.indexOf(el.disease_info_title) !== -1) {
               updataModel.push({
                 disease_info_title: el.disease_info_title,
                 disease_info_title_unit: el.disease_info_title_unit,
