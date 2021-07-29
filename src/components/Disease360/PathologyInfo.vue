@@ -50,9 +50,21 @@
       </el-form-item>
     </el-form>
     <div
-      style="display:flex; justify-content:center ; width:50%;margin-left:25%;margin-top:50px"
+      style="display:flex; justify-content:center ; width:70%;margin-left:15%;margin-top:50px"
     >
-      <el-button :loading="formLoad" round style="width:100%" @click="onSubmit"
+      <el-button
+        class="reSubmit"
+        round
+        style="width:100%"
+        @click="reSubmit"
+        >重置</el-button
+      >
+      <el-button
+        class="onSubmit"
+        :loading="formLoad"
+        round
+        style="width:100%"
+        @click="onSubmit"
         >提交</el-button
       >
     </div>
@@ -69,7 +81,8 @@ export default {
     return {
       formLoad: false,
       list: ['腹胀', '呕吐'],
-      diseaseInfoModel: null
+      diseaseInfoModel: null,
+      diseaseInfoModelTem: null
     }
   },
   props: {
@@ -117,6 +130,9 @@ export default {
           })
         }
       })
+      this.diseaseInfoModelTem = JSON.parse(
+        JSON.stringify(this.diseaseInfoModel)
+      )
     },
     updateDiseaseInfoSP () {
       const param = {
@@ -176,6 +192,12 @@ export default {
       // }, 2000)
       // console.log('submit!')
     },
+    reSubmit () {
+      this.diseaseInfoModel = JSON.parse(
+        JSON.stringify(this.diseaseInfoModelTem)
+      )
+      this.$message.success('重置患者信息成功')
+    },
     ...mapMutations({
       ONSHOWTOAST: 'disease360/ONSHOWTOAST'
     })
@@ -184,6 +206,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import '@/assets/commonPublic.scss';
 /deep/.el-form-item--mini .el-form-item__content,
 .el-form-item--mini .el-form-item__label {
   display: flex;
@@ -192,5 +215,13 @@ export default {
 }
 /deep/.el-form-item {
   padding-right: 0px;
+}
+.onSubmit {
+  color: white;
+  background: $publicBackground;
+}
+.reSubmit {
+  background: #b2d6c5;
+  color: #5b8b70;
 }
 </style>
