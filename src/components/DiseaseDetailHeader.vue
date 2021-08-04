@@ -119,7 +119,7 @@ export default {
     @include flexistyle();
     justify-content: flex-start;
     img {
-      height: 70%;
+      height: 88%;
       width: 30%;
       padding-right: 30px;
     }

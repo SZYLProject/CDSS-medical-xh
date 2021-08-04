@@ -23,6 +23,7 @@
       v-for="(item, i) in diseaseInfoModel[0].children"
       :key="i"
     >
+      <!-- 第二层输入框 -->
       <el-form-item
         :label="item.disease_info_title"
         v-if="item.presentation_type === '1'"
@@ -39,7 +40,11 @@
           </el-input>
         </el-form-item>
       </el-form-item>
-      <el-form-item v-else :label="item.disease_info_title">
+      <!-- 第二层多选框 -->
+      <el-form-item
+        v-else-if="item.presentation_type !== '1' && !item.children[0].children"
+        :label="item.disease_info_title"
+      >
         <el-checkbox-group v-model="item.childrenList">
           <el-checkbox
             v-for="(item2, index) in item.children"
@@ -48,15 +53,32 @@
           ></el-checkbox>
         </el-checkbox-group>
       </el-form-item>
+      <!-- 第三层多选框 -->
+      <el-form-item
+        v-else-if="item.presentation_type !== '1' && item.children[0].children"
+        :label="item.disease_info_title"
+      >
+        <div>
+          <el-form-item
+            v-for="(it, a) in item.children"
+            :key="a"
+            :label="it.disease_info_title"
+          >
+            <el-checkbox-group v-model="it.childrenList">
+              <el-checkbox
+                v-for="(item2, index) in it.children"
+                :key="index"
+                :label="item2.disease_info_title"
+              ></el-checkbox>
+            </el-checkbox-group>
+          </el-form-item>
+        </div>
+      </el-form-item>
     </el-form>
     <div
       style="display:flex; justify-content:center ; width:70%;margin-left:15%;margin-top:50px"
     >
-      <el-button
-        class="reSubmit"
-        round
-        style="width:100%"
-        @click="reSubmit"
+      <el-button class="reSubmit" round style="width:100%" @click="reSubmit"
         >重置</el-button
       >
       <el-button
@@ -120,7 +142,22 @@ export default {
           }
         }
       )
-      console.log(this.diseaseInfoModel, 'this.diseaseInfoModel')
+      for (
+        let i = 0;
+        i < this.diseaseInfo?.diseaseInfoModel[0].children.length;
+        i++
+      ) {
+        this.diseaseInfoModel[0].children[
+          i
+        ].children = this.diseaseInfo?.diseaseInfoModel[0].children[
+          i
+        ].children.map(item => {
+          return {
+            ...item,
+            childrenList: []
+          }
+        })
+      }
       this.diseaseInfoModel[0].children.forEach(el => {
         if (el.presentation_type !== '1') {
           el.childrenList = el.children.map(item => {
@@ -130,6 +167,23 @@ export default {
           })
         }
       })
+      for (
+        let i = 0;
+        i < this.diseaseInfo?.diseaseInfoModel[0].children.length;
+        i++
+      ) {
+        this.diseaseInfoModel[0].children[i].children.forEach(el => {
+          if (el.presentation_type !== '1') {
+            el.childrenList = el.children?.map(item => {
+              if (item.disease_info_title_value === 'y') {
+                return item.disease_info_title
+              }
+            })
+          }
+        })
+      }
+      console.log(this.diseaseInfoModel, 'this.diseaseInfoModel')
+
       this.diseaseInfoModelTem = JSON.parse(
         JSON.stringify(this.diseaseInfoModel)
       )
@@ -169,7 +223,10 @@ export default {
               }
             })
           )
-        } else {
+        } else if (
+          item.presentation_type !== '1' &&
+          !item.children[0].children
+        ) {
           // updataModel.concat(item.children.map())
           item.children.forEach(el => {
             if (item.childrenList.indexOf(el.disease_info_title) !== -1) {
@@ -180,6 +237,24 @@ export default {
               })
             }
           })
+        } else if (
+          item.presentation_type !== '1' &&
+          item.children[0].children
+        ) {
+          for (let i = 0; i < item.children.length; i++) {
+            item.children[i].children.forEach(el => {
+              if (
+                item.children[i].childrenList.indexOf(el.disease_info_title) !==
+                -1
+              ) {
+                updataModel.push({
+                  disease_info_title: el.disease_info_title,
+                  disease_info_title_unit: el.disease_info_title_unit,
+                  disease_info_title_value: 'y'
+                })
+              }
+            })
+          }
         }
       })
       return updataModel
