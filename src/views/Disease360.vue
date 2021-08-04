@@ -106,7 +106,14 @@ import SchemeRecommendation3 from '@/components/Disease360/SchemeRecommendation3
 import SimilarCases from '@/components/Disease360/SimilarCases'
 import FollowUp from '@/components/Disease360/FollowUp'
 import DocumentRetrieval from '@/components/Disease360/DocumentRetrieval'
-import { Button, Collapse, Loading, CheckboxGroup, Checkbox } from 'element-ui'
+import {
+  Button,
+  Collapse,
+  Loading,
+  CheckboxGroup,
+  Checkbox,
+  Message
+} from 'element-ui'
 import { mapMutations, mapState } from 'vuex'
 import api from '@/request/index'
 
@@ -198,6 +205,10 @@ export default {
         patient_id: String(id)
       }
       await api.diease360.getPatientMessage(data).then(res => {
+        if (res.patient_id === null || res.patient_id === undefined) {
+          Message.warning('当前患者已出院，请选择在院患者!')
+          return
+        }
         localStorage.setItem('numHospital', String(res.num_hospital))
         // console.log(String(res.num_hospital), 'String(res.num_hospital)')
         this.tablePerpionInfo = res
