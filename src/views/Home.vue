@@ -19,7 +19,7 @@ export default {
       isShowNav: false,
       isShowBack: false,
       headerInfo: {
-        title: '临床决策支持系统',
+        title: '重症临床决策支持系统',
         tabs: [
           { title: '病人列表' },
           { title: 'Worklist' },

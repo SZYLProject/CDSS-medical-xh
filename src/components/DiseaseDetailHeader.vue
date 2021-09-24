@@ -1,6 +1,7 @@
 <template>
   <div class="header-wrap">
     <div class="left-wrap">
+      <img src="../static/images/bjxhlogo.png" alt="" />
       <img src="../static/images/logo.png" alt="" />
       <span class="title-spa">{{ headerInfo.title }}</span>
     </div>
@@ -120,7 +121,7 @@ export default {
     justify-content: flex-start;
     img {
       height: 88%;
-      width: 30%;
+      width: 15%;
       padding-right: 30px;
     }
   }

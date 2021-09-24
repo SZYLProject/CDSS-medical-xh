@@ -58,7 +58,7 @@ export default {
   methods: {
     displyTreatmentsFun () {
       this.displyTreatments.forEach((item, index) => {
-        if (item.recommendID === 'qSOFA评估') {
+        if (item.recommendID === 'SOFA评估') {
           this.displyTreatmentsData.push(item)
         }
       })
