@@ -29,7 +29,11 @@
         v-if="item.presentation_type === '1'"
       >
         <el-form-item v-for="(item1, j) in item.children" :key="j">
-          <div style="margin-right:20px">{{ item1.disease_info_title }}:</div>
+          <div
+            style="margin-right:20px;color:#606266; weight:500;font-size:14px;font-family:'Helvetica'"
+          >
+            {{ item1.disease_info_title }}:
+          </div>
           <el-input
             style="width:150px;"
             v-model="item1.disease_info_title_value"
@@ -89,6 +93,15 @@
         @click="onSubmit"
         >提交</el-button
       >
+    </div>
+    <div
+      style="display:flex ;display: flex;
+    justify-content: center;
+    margin-top: 40px;"
+    >
+      <div>
+        重症基础诊疗临床辅助系统仅提供辅助决策信息，诊疗意见以临床意见为准。当前为试用版，详细功能以最终注册信息为准。
+      </div>
     </div>
   </div>
 </template>
@@ -298,5 +311,8 @@ export default {
 .reSubmit {
   background: #b2d6c5;
   color: #5b8b70;
+}
+/deep/.el-form-item__label {
+  font-weight: 800;
 }
 </style>
